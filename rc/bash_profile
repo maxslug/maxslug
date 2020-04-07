@@ -1,0 +1,4 @@
+# This is required on redhat machines
+if [ -f ~/.bashrc ]; then
+  . ~/.bashrc
+fi

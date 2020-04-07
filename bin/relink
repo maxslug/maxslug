@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# FIX ME
+G=/path/to/${USER}
+FILES=".vimrc .tmux.conf .ghci bin .bashrc .bash_profile cad .tclshrc go man"
+
+for f in $FILES; do
+  if [[ ! -e ~/$f ]] ; then
+    ln -sf $G/$f ~/$f
+  fi
+done
+
+if [[ ! -e ~/home ]] ; then
+  ln -sf $G ~/home
+fi
+
+if [[ ! -d ~/.vim ]]; then
+  mkdir ~/.vim
+fi
+
+#mkdir -p ~/.vnc
+#ln -sf $G/bin/xstartup ~/.vnc/xstartup
+
+# Central .vim location
+#if [[ ! -e ~/.vim/bundle ]]; then
+#  ln -sf $G/cad/vim/bundle ~/.vim
+#fi

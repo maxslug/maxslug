@@ -1,0 +1,266 @@
+" max's vimrc
+"
+" Notepad:
+"   - Sort by last column : :69,120 :sort /.*\s\+/
+"   - Colors :so $VIMRUNTIME/syntax/hitest.vim
+"     :runtime syntax/colortest.vim
+"
+" Syntax Highlighting / Colors / Term
+"
+syntax on
+if &diff
+  syntax off
+  set diffopt+=iwhite
+  colorscheme slate
+endif
+filetype plugin indent on
+set t_Co=256
+hi Comment term=bold ctermfg=lightgrey ctermbg=blue
+hi Search  ctermfg=white ctermbg=darkgray
+
+" Key Mappings
+"   (Mac OS - Remove F11/F12 mappings in Settings -> Mission Control)
+:let mapleader = ","
+nm <F1> :prev<CR>
+nm <F2> :next<CR>
+
+" tmux / iterm2
+if &term=~'screen'
+  " Need a fancier detection method for iterm2+tmux here
+  " Iterm2 label the 2016 Macbook Pro  F-keys through ANSI codes
+  au VimEnter * silent !echo -ne "\033]1337;PushKeyLabels\a"
+  au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F1=Prev\a"
+  au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F2=Next\a"
+  au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F3=CPrev\a"
+  au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F4=CNext\a"
+  au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F8=\a"
+  au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F9=\a"
+  au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F10=\a"
+  au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F11=\a"
+  au VimLeave * silent !echo -ne "\033]1337;PopKeyLabels\a"
+endif
+
+" QuickFix Mode
+"   - Automatically open, but do not go to (if there are errors) the quickfix /
+"     location list window, or close it when is has become empty.
+" Note: Must allow nesting of autoCmds to enable any customizations for quickfix buffers.
+" Note: Normally, :cwindow jumps to the quickfix window if the command opens it
+"       (but not if it's already open). However, as part of the au, this doesn't seem to happen.
+au QuickFixCmdPost [^l]* nested cwindow
+au QuickFixCmdPost    l* nested lwindow
+nm <F3> :cprevious<CR>
+nm <F4> :cnext<CR>
+
+"
+" General Settings
+"
+set autoindent
+set clipboard=unnamedplus,autoselect
+set cmdheight=1
+set completeopt=menuone,menu,longest
+set encoding=utf-8
+set expandtab
+"for JSON I get this: "   E350: Cannot create fold with current 'foldmethod'
+set foldmethod=syntax
+set gdefault
+set history=1000
+set ignorecase
+set incsearch
+set laststatus=2
+"set mouse=a " this is messing up copy/paste
+set nocompatible
+set nowrap
+set number
+set ruler
+set shiftwidth=2
+set shortmess+=r
+set showcmd
+set showmatch
+set showmode
+set smartcase
+"set smartindent
+set smarttab
+set softtabstop=2
+"set tw=80
+set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox
+set wildmenu
+set wildmode=longest,list,full
+
+"
+" Filetype-Specific Stuff
+"
+au BufRead,BufNewFile *flowconfig* set filetype=tcl
+au BufRead,BufNewFile *.log        set filetype=tcl
+au BufRead,BufNewFile *.rpt        set filetype=tcl
+au BufRead,BufNewFile *.do         set filetype=tcl
+au BufRead,BufNewFile *.nix        set filetype=tcl
+au BufRead,BufNewFile *.lib        set filetype=c
+au BufRead,BufNewFile *.A51,*.a51  set filetype=asm
+au BufRead,BufNewFile *.svt        set filetype=systemverilog
+au BufRead,BufNewFile *.pbtxt      set filetype=yaml
+au BufRead,BufNewFile *.bsd,*.bsdl,*.BSD,*.BSDL set filetype=vhdl
+" Moved to vim-yaml-folds
+"au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+"autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+au FileType gitcommit set nofoldenable
+
+" Add Tab characters to makefiles
+au FileType make setlocal noexpandtab shiftwidth=8 softtabstop=0
+" Undo forced setting in $VIMRUNTIME/ftplugin/python.vim
+au FileType python setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=2
+
+"
+" Paths / Env
+"
+" Put swp files in virtual ram if on modern linux box
+" This didn't work to fix NFS-related hangs
+" let g:uid=systemlist('/usr/bin/id -u')[0]
+" let g:try_directory='/run/user/' . g:uid . '/vim/'
+" if isdirectory('/run/user/'. g:uid)
+"   if !isdirectory(g:try_directory)
+"     call mkdir(g:try_directory)
+"   end
+"   " Trailing slash means embed full path in swp file name
+"   let &directory = g:try_directory . '/'
+" endif
+
+"
+" PLUGINS
+"
+runtime macros/matchit.vim
+
+" Airline Plugin
+if exists(':Airline')
+  if &term=~'screen'
+    " https://vi.stackexchange.com/questions/3359/how-do-i-fix-the-status-bar-symbols-in-the-airline-plugin
+    let g:airline_powerline_fonts = 1
+  else
+    " old vim-powerline symbols
+    if !exists('g:airline_symbols')
+      let g:airline_symbols = {}
+    endif
+    " Non-unicode eg. xfce4-terminal
+    let g:airline_left_sep = '⮀'
+    let g:airline_left_alt_sep = '⮁'
+    let g:airline_right_sep = '⮂'
+    let g:airline_right_alt_sep = '⮃'
+    let g:airline_symbols.crypt = '⭠'
+    let g:airline_symbols.branch = '⭠'
+    let g:airline_symbols.readonly = '⭤'
+    let g:airline_symbols.linenr = '⭡'
+  endif
+  let g:airline#extensions#tabline#enabled = 1
+endif
+
+silent! execute pathogen#infect()
+silent! call pathogen#helptags()
+
+" Customize RHS of aline 
+" let g:airline_section_z = airline#section#create(['windowswap', 'obsession', '%3p%% ', 'linenr', 'maxlinenr', ' :%5(%c%V%)'])
+
+" Syntastic
+if get(g:, 'loaded_syntastic_plugin', 0)
+  map <Leader>s :SyntasticToggleMode<CR>
+
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 0
+  let g:syntastic_check_on_open = 0
+  let g:syntastic_check_on_wq = 0
+endif
+
+" ghc-mod
+"map <silent> tw :GhcModTypeInsert<CR>
+"map <silent> ts :GhcModSplitFunCase<CR>
+"map <silent> tq :GhcModType<CR>
+"map <silent> te :GhcModTypeClear<CR>
+"
+" neco-ghc
+"let g:haskellmode_completion_ghc = 1
+"au FileType haskell setlocal omnifunc=necoghc#omnifunc
+"
+"let g:haskell_tabular = 1
+
+" nerd-tree
+if exists('g:NERDTree')
+  map <Leader>n :NERDTreeToggle<CR>
+endif
+
+" tabular
+" These patterns have to go into  ~/.vim/bundle/tabular/after/plugin/TabularMaps.vim
+"   AddTabularPattern parens /\((\|)\)/
+if get(g:, 'tabular_loaded', 0)
+  vmap a= :Tabularize /=<CR>
+  vmap a; :Tabularize /::<CR>
+  vmap a- :Tabularize /-><CR>
+  vmap a, :Tabularize /<-<CR>
+  vmap al :Tabularize /[\[\\|,]<CR>
+  vmap a( :Tabularize parens<CR>
+  vmap a) :Tabularize parens<CR>
+endif
+
+" Easy Align
+if exists(':EasyAlign')
+  " Start interactive EasyAlign in visual mode (e.g. vipga)
+  xmap ga <Plug>(EasyAlign)
+  " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+  nmap ga <Plug>(EasyAlign)
+endif
+
+" == ctrl-p == https://github.com/ctrlpvim/ctrlp.vim
+"map <silent> <Leader>t :CtrlP()<CR>
+"noremap <leader>b<space> :CtrlPBuffer<cr>
+"let g:ctrlp_custom_ignore = '\v[\/]dist$'
+
+" FZF
+if exists(':FZF')
+  " Mapping selecting mappings
+  " nmap <leader><tab> <plug>(fzf-maps-n)
+  " xmap <leader><tab> <plug>(fzf-maps-x)
+  " omap <leader><tab> <plug>(fzf-maps-o)
+  "
+  " " Insert mode completion
+  " imap <c-x><c-k> <plug>(fzf-complete-word)
+  " imap <c-x><c-f> <plug>(fzf-complete-path)
+  " imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+  " imap <c-x><c-l> <plug>(fzf-complete-line)
+  "
+  " " Advanced customization using autoload functions
+  " inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+  nnoremap <C-p> :FZF<Cr>
+endif
+
+"
+" Last Place Plugin -  https://github.com/farmergreg/vim-lastplace
+"
+" cd ~/.vim/bundle && git clone git://github.com/farmergreg/vim-lastplace.git
+"let g:lastplace_ignore = "gitcommit,gitrebase,svn,hgcommit"
+"let g:lastplace_ignore_buftype = "quickfix,nofile,help"
+"let g:lastplace_open_folds = 0
+
+"
+" SystemVerilog Plugin w/ Omni Completion and quickfix mode w/ Make + VCS
+"   https://github.com/vhda/verilog_systemverilog.vim 
+"   https://github.com/universal-ctags/ctags.git
+if exists(':VerilogErrorFormat')
+  " 2nd argument sets 1 - lint,warn,err, 2 - warn,err, 3 - err
+  nm <F5> :VerilogErrorFormat vcs 3<CR>:make vcs RTL_VIEW=syn INTERACTIVE=0<CR>
+  nm <F6> :VerilogErrorFormat vcs 2<CR>:make vcs RTL_VIEW=syn INTERACTIVE=0<CR>
+  nm <F7> :VerilogErrorFormat vcs 1<CR>:make vcs RTL_VIEW=syn INTERACTIVE=0<CR>
+  if &term=~'screen'
+    au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F5=VCS-E\a"
+    au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F6=VCS-W\a"
+    au VimEnter * silent !echo -ne "\033]1337;SetKeyLabel=F7=VCS-I\a"
+  endif
+
+  " ,v - Load up the vcs.log and go through the warnings + errors  ** means anywhere in this subtree
+  nnoremap <leader>v :VerilogErrorFormat vcs 1<CR>:cfile **/vcs.log<CR>
+  nnoremap <leader>a :VerilogErrorFormat ascent 1<CR>:cfile **/rpt/lint_verbose_new.rpt<CR>
+  nnoremap <leader>u :VerilogGotoInstanceStart<CR>
+  nnoremap <leader>i :VerilogFollowInstance<CR>
+  nnoremap <leader>I :VerilogFollowPort<CR>
+  let g:verilog_disable_indent_lst = "module,interface,class,package,generate,property,method,eos"
+endif

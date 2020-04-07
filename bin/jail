@@ -1,0 +1,66 @@
+#!/bin/bash
+#
+# This runs firefox in a jail using firejail on Ubuntu 18.04
+# See firefox.profile for the other part of this
+#
+BRIDGE=br0
+ETH0=ens4
+INF=breth0
+
+# Create a bridge and NAT for the sandbox
+if [[ `ip link show br0 > /dev/null 2>&1; echo $?` != 0 ]]; then
+  echo "Starting Bridge"
+  sudo brctl addbr $BRIDGE
+  #sudo brctl addif $BRIDGE $INF
+  sudo ip link set $BRIDGE up
+  sudo ip addr add 10.10.20.1/24 dev $BRIDGE
+  #sudo ip addr add 10.10.20.1/24 dev $INF
+   
+  # enable ipv4 forwarding
+  #echo 1 | sudo tee -a /proc/sys/net/ipv4/ip_forward
+  sudo sysctl -w net.ipv4.conf.all.forwarding=1
+   
+  # netfilter cleanup
+  sudo iptables --flush
+  sudo iptables -t nat -F
+  sudo iptables -X
+  sudo iptables -Z
+  sudo iptables -P INPUT ACCEPT
+  sudo iptables -P OUTPUT ACCEPT
+  sudo iptables -P FORWARD ACCEPT
+   
+  # netfilter network address translation
+  sudo iptables -t nat -A POSTROUTING -o $ETH0 -s 10.10.20.0/24  -j MASQUERADE
+fi
+
+mkdir -p $HOME/firejail
+/usr/bin/firejail \
+  --name=jail \
+  --private=$HOME/firejail \
+  --profile=../rc/firejail.firefox.profile \
+  --whitelist=/net/m/cad/firejail \
+  --whitelist=/net/m/.aspera \
+  --blacklist=/net \
+  --blacklist=/groq \
+  --blacklist=/groq-filestore \
+  --blacklist=/groq-poc \
+  --blacklist=/oldgroq \
+  --blacklist=/cloudsql \
+  --blacklist=/lab \
+  --blacklist=/zebu \
+  --blacklist=/zebu2 \
+  --blacklist=/snap \
+  --blacklist=/boot \
+  --net=$BRIDGE \
+  --dns=8.8.8.8 --dns=8.8.4.4 \
+  --debug \
+  "$@"
+
+# Shutdown the bridge if no longer in use
+if [[ `ip link show br0 > /dev/null 2>&1; echo $?` == 0 ]]; then
+  if [[ `firejail --list | wc -l` == 0 ]]; then
+    echo "Stopping Bridge"
+    sudo ip link set $BRIDGE down
+    sudo brctl delbr $BRIDGE
+  fi
+fi

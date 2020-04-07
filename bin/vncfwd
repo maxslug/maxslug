@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ "$1" == "" ]; then
+	HOST=my-vm
+else
+	HOST=$1
+	shift
+fi
+
+if [ "$1" == "" ]; then
+	PORT=5901
+else
+	PORT=$1
+	shift
+fi
+
+TIGERPORT=$(( $PORT - 5900 ))
+ssh -C -f -o ExitOnForwardFailure=yes -L $PORT:localhost:$PORT $HOST sleep 30
+
+# This is for brew native version (buggy)
+#/usr/local/bin/vncviewer 127.0.0.1:${TIGERPORT} 
+
+# This is for the cask version
+open -b com.tigervnc.tigervnc --args "127.0.0.1:${TIGERPORT}"
