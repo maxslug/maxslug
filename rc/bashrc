@@ -170,3 +170,5 @@ if [ "$FZF_DIR" != "" ]; then
   source $FZF_DIR/shell/key-bindings.bash
   source $FZF_DIR/shell/completion.bash
 fi
+
+export PATH=$HOME/bin:$PATH
