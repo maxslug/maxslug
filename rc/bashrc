@@ -51,7 +51,7 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-if [ -r $GIT_PROMPT ]; then
+if [ "$GIT_PROMPT" != "" ]; then
   source $GIT_PROMPT
   #export GIT_PS1_SHOWCOLORHINTS=true
   #export GIT_PS1_SHOWDIRTYSTATE=true; # this slows things down

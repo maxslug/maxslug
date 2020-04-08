@@ -1,22 +1,15 @@
 #!/bin/bash
 
-# FIX ME
-G=/path/to/${USER}
-FILES=".vimrc .tmux.conf .ghci bin .bashrc .bash_profile cad .tclshrc go man"
+G=$HOME/maxslug
+RC_FILES="vimrc tmux.conf bashrc bashrc.local bash_profile tclshrc dircolors"
 
-for f in $FILES; do
+for f in $RC_FILES; do
   if [[ ! -e ~/$f ]] ; then
-    ln -sf $G/$f ~/$f
+    ln -sf $G/rc/$f ~/.$f
   fi
 done
 
-if [[ ! -e ~/home ]] ; then
-  ln -sf $G ~/home
-fi
-
-if [[ ! -d ~/.vim ]]; then
-  mkdir ~/.vim
-fi
+ln -sf $G/bin ~/
 
 #mkdir -p ~/.vnc
 #ln -sf $G/bin/xstartup ~/.vnc/xstartup
