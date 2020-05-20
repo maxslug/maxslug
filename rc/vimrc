@@ -106,8 +106,9 @@ au FileType gitcommit set nofoldenable
 
 " Add Tab characters to makefiles
 au FileType make setlocal noexpandtab shiftwidth=8 softtabstop=0
-" Undo forced setting in $VIMRUNTIME/ftplugin/python.vim
-au FileType python setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=2
+
+" Undo forced PEP8 setting in $VIMRUNTIME/ftplugin/python.vim
+"au FileType python setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=2
 
 "
 " Paths / Env

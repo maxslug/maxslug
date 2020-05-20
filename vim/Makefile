@@ -1,4 +1,4 @@
-ALL=pathogen vim-yaml-folds git-gutter fugitive airline syntastic nerdtree tabular verilog_systemverilog fzf
+ALL=pathogen vim-yaml-folds git-gutter fugitive airline syntastic nerdtree tabular verilog_systemverilog fzf fast-fold python-folding
 
 all: $(ALL)
 
@@ -88,6 +88,21 @@ vim-yaml-folds: dirs
 	  cd ~/.vim/bundle/vim-yaml-folds && git pull; \
 	else \
 	  git clone https://github.com/pedrohdz/vim-yaml-folds.git ~/.vim/bundle/vim-yaml-folds; \
+	fi
+
+fast-fold: dirs
+	if [ -d ~/.vim/bundle/fast-fold ]; then \
+	  cd ~/.vim/bundle/fast-fold && git pull; \
+	else \
+	  git clone git://github.com/Konfekt/FastFold ~/.vim/bundle/fast-fold; \
+	fi
+
+# python folding
+python-folding: dirs
+	if [ -d ~/.vim/bundle/vim-coiled-snake ]; then \
+	  cd ~/.vim/bundle/vim-coiled-snake && git pull; \
+	else \
+          git clone git://github.com/kalekundert/vim-coiled-snake.git ~/.vim/bundle/vim-coiled-snake; \
 	fi
 
 # easyalign - not bothering
