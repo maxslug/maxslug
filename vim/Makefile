@@ -105,6 +105,13 @@ python-folding: dirs
           git clone git://github.com/kalekundert/vim-coiled-snake.git ~/.vim/bundle/vim-coiled-snake; \
 	fi
 
+# Mikrotik Syntax Highlighting
+	if [ -d ~/.vim/bundle/vim-mikrotik ]; then \
+	  cd ~/.vim/bundle/vim-mikrotik && git pull; \
+	else \
+          git clone https://github.com/zainin/vim-mikrotik.git ~/.vim/bundle/vim-mikrotik; \
+	fi
+
 # easyalign - not bothering
 
 # fzf https://github.com/junegunn/fzf
