@@ -1,10 +1,11 @@
-ALL=pathogen vim-yaml-folds git-gutter fugitive airline syntastic nerdtree tabular verilog_systemverilog fzf fast-fold python-folding
+ALL=pathogen vim-yaml-folds git-gutter fugitive airline syntastic nerdtree tabular verilog_systemverilog fzf fast-fold python-folding tcl
 
 all: $(ALL)
 
 dirs:
 	@mkdir -p ~/.vim/bundle
 	@mkdir -p ~/.vim/autoload
+	@mkdir -p ~/.vim/syntax
 
 airline: dirs
 	if [ -d ~/.vim/bundle/vim-airline ]; then \
@@ -39,6 +40,10 @@ nerdtree: dirs
 
 pathogen: dirs
 	curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+
+# Check for new ver at https://www.vim.org/scripts/script.php?script_id=1603
+tcl: dirs
+	curl -LSso ~/.vim/syntax/tcl.vim https://www.vim.org/scripts/download_script.php?src_id=24212
 
 syntastic: dirs
 	if [ -d ~/.vim/bundle/syntastic ]; then \

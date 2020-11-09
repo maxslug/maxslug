@@ -56,7 +56,7 @@ if [ "$GIT_PROMPT" != "" ]; then
   #export GIT_PS1_SHOWCOLORHINTS=true
   #export GIT_PS1_SHOWDIRTYSTATE=true; # this slows things down
   git_prompt=yes
-else 
+else
   git_prompt=
 fi
 
@@ -91,12 +91,14 @@ xterm-256color|xterm-color)
   ;;
 screen)
     export PROMPT_DIRTRIM=3
-    # tmux uses a different escape seq \ek ... \e\
-    #PS1="\ek\u@\h: \w\a\e\\\u@\h:\w\$ "
     if [ "$git_prompt" == yes ]; then
       PS1='\ek\u@\h:$(__git_ps1 " (%.10s)") \w\a\e\\\[\e[01;32m\]\u@\h\[\e[00m\]:$(__git_ps1 " (%.10s)")${GEDI_PROMPT} \[\e[01;34m\]\w\[\e[00m\]\$ '
     else
-      PS1='\ek\u@\h: \w\a\e\\\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
+      # Added the prompt three times :
+      #   1. tmux tab title - uses a different escape seq \ek ... \e\\
+      #   2. tmux session name (window tab) \e\0; ... \e\\
+      #   3. bash (ANSI)
+      PS1='\e]0;\u@\h: \w\e\\\ek\u@\h: \w\e\\\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
     fi
     # Turn on color for less
     export LESS_TERMCAP_mb=$'\E[01;31m'
