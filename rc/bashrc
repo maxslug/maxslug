@@ -209,4 +209,16 @@ fi
 # keychain ssh-agent support
 [ -x /usr/bin/keychain ] && [ -f ~/.ssh/id_ed25519 ] && eval `/usr/bin/keychain --eval id_ed25519`
 
+# MacOS Keychain supportk
+# Add this to your .ssh/config make sure authorized_hosts and config are 0644
+#   Host *
+#     UseKeychain yes
+#     AddKeysToAgent yes
+#     IdentityFile ~/.ssh/id_ed25519
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export BASH_SILENCE_DEPRECATION_WARNING=1
+  export APPLE_SSH_ADD_BEHAVIOR=macos
+  ssh-add -A
+fi
+
 export PATH=$HOME/bin:$PATH
