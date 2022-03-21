@@ -1,6 +1,6 @@
 #!/bin/bash
 
-G=$HOME/maxslug
+G=$HOME/cad/maxslug
 RC_FILES="vimrc tmux.conf bashrc bashrc.local bash_profile tclshrc dircolors"
 
 for f in $RC_FILES; do

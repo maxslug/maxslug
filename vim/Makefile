@@ -1,4 +1,4 @@
-ALL=pathogen vim-yaml-folds git-gutter fugitive airline syntastic nerdtree tabular verilog_systemverilog fzf fast-fold python-folding tcl
+ALL=pathogen vim-yaml-folds git-gutter fugitive airline syntastic nerdtree tabular verilog_systemverilog fzf fast-fold python-folding tcl mermaid mako
 
 all: $(ALL)
 
@@ -81,7 +81,8 @@ ctags: dirs ctags-deps
 
 # SystemVerilog Plugin w/ Omni Completion and quickfix mode w/ Make + VCS
 #   Requires devel version of universal-ctags
-verilog_systemverilog: dirs ctags
+#verilog_systemverilog: dirs ctags
+verilog_systemverilog: dirs
 	if [ -d ~/.vim/bundle/verilog_systemverilog ]; then \
 	  cd ~/.vim/bundle/verilog_systemverilog && git pull; \
 	else \
@@ -111,6 +112,7 @@ python-folding: dirs
 	fi
 
 # Mikrotik Syntax Highlighting
+vim-mikrotik: dirs
 	if [ -d ~/.vim/bundle/vim-mikrotik ]; then \
 	  cd ~/.vim/bundle/vim-mikrotik && git pull; \
 	else \
@@ -123,5 +125,21 @@ python-folding: dirs
 
 hsvim: dirs
 	git clone --recursive https://github.com/sdiehl/haskell-vim-proto.git
+
+# Mermaid diagrams syntax highlighting
+mermaid: dirs
+	if [ -d ~/.vim/bundle/mermaid.vim ]; then \
+	  cd ~/.vim/bundle/mermaid.vim && git pull; \
+	else \
+          git clone git@github.com:mracos/mermaid.vim.git ~/.vim/bundle/mermaid.vim; \
+	fi
+
+# TODO(max) change this off of fork once the pull request goes through.
+mako: dirs
+	if [ -d ~/.vim/bundle/vim-bundle-mako.vim ]; then \
+	  cd ~/.vim/bundle/vim-bundle-mako.vim && git pull; \
+	else \
+	git clone git@github.com:max-elastics/vim-bundle-mako.git ~/.vim/bundle/vim-bundle-mako.vim; \
+	fi
 
 .PHONY: $(ALL)

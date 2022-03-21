@@ -18,6 +18,7 @@ set t_Co=256
 set background=dark
 hi Comment term=bold ctermfg=lightgrey ctermbg=blue
 hi Search  ctermfg=white ctermbg=darkgray
+set nohlsearch
 
 " Key Mappings
 "   (Mac OS - Remove F11/F12 mappings in Settings -> Mission Control)
@@ -101,12 +102,17 @@ au BufRead,BufNewFile *.do         set filetype=tcl
 au BufRead,BufNewFile *.nix        set filetype=tcl
 au BufRead,BufNewFile *.lib        set filetype=c
 au BufRead,BufNewFile *.A51,*.a51  set filetype=asm
-au BufRead,BufNewFile *.svt        set filetype=systemverilog
+au BufRead,BufNewFile *.svt,*.v,*.sv,*.vh,*.svh set filetype=systemverilog
 au BufRead,BufNewFile *.pbtxt      set filetype=yaml
 au BufRead,BufNewFile *.bsd,*.bsdl,*.BSD,*.BSDL set filetype=vhdl
+au BufRead,BufNewFile *.bzl,BUILD set filetype=python
 " Moved to vim-yaml-folds
 "au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 "autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+" Mako support
+let g:mako_detect_lang_from_ext = 1
+let g:mako_default_outer_lang = "systemverilog"
+let g:mako_extension = ".tpl"
 au FileType gitcommit set nofoldenable
 
 " Add Tab characters to makefiles
@@ -117,8 +123,8 @@ au BufRead,BufNewFile *.log,*.rpt,*.ds call whitespace#ClearHighlight()
 
 " Python Lint Rules
 " Undo forced PEP8 setting in $VIMRUNTIME/ftplugin/python.vim
-"au FileType python setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=2
-au FileType python setlocal tw=80
+au FileType python setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=2
+au FileType python setlocal tw=120
 
 "
 " Paths / Env
@@ -286,6 +292,7 @@ fu! MaxPlugins()
   "let g:ycm_filetype_blacklist = {
   "  \ 'tagbar': 1,
   "  \}
+
 
 endfunction
 
