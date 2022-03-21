@@ -128,12 +128,30 @@ esac
 #   #PS1="\[\$(iterm2_prompt_mark)\]${PS1}"
 # fi
 
+# HomeBrew
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # Bash completion
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
+  fi
+
+  # Homebrew bash completion
+  if type brew &>/dev/null; then
+    HOMEBREW_PREFIX="$(brew --prefix)"
+    if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+      source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    else
+      for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+      do
+        [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+      done
+    fi
   fi
 fi
 
