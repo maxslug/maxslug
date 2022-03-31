@@ -1,0 +1,44 @@
+# To use add the following to ~/.gitconfig
+#   [include]
+#      path = /path/to/maxslug/rc/gitconfig
+
+[alias]
+#   Some from https://stackoverflow.com/questions/1777854/how-can-i-specify-a-branch-tag-when-adding-a-git-submodule/18797720#18797720
+# git s - full status including submodules
+s = "! git status; git submodule foreach --recursive git status"
+
+# git sm-init: check out the submodules and sync them to their branches
+sm-init = "! git submodule update --init --recursive --remote; git sm-sync"
+
+# git sm-sync: will sync each submodule to the branch listed in parent's .gitmodules
+#          otherwise you'll be frozen in time
+sm-sync = "! git submodule foreach -q --recursive 'branch=\"$(git config -f $toplevel/.gitmodules submodule.$name.branch)\"; git checkout $branch'"
+
+# git sim-pull: Pull every submodule too
+sm-pull = "! git pull; git submodule update; git sm-sync ; git submodule foreach 'git pull' "
+
+# git sm-pullrebase:
+# - pull --rebase on the master repo
+# - sm-sync on every submodule
+# - pull --rebase on each submodule
+#
+# Important note:
+# - have a clean master repo and subrepos before doing this!
+# - this is *not* equivalent to getting the last committed
+#   master repo + its submodules: if some submodules are tracking branches
+#   that have evolved since the last commit in the master repo,
+#   they will be using those more recent commits!
+#
+#   (Note: On the contrary, git submodule update will stick to the last committed SHA1 in the master repo)
+sm-pullrebase = "! git pull --rebase; git submodule update; git sm-sync ; git submodule foreach 'git pull --rebase' "
+
+# git sm-diff will diff the master repo *and* its submodules
+sm-diff = "! git diff && git submodule foreach 'git diff' "
+
+# git sm-push will ask to push also submodules
+sm-push = push --recurse-submodules=on-demand
+
+# git alias: list all aliases
+alias = "!git config -l | grep alias | cut -c 7-"
+
+# vim:ft=gitconfig
