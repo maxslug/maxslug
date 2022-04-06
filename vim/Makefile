@@ -134,12 +134,18 @@ mermaid: dirs
           git clone git@github.com:mracos/mermaid.vim.git ~/.vim/bundle/mermaid.vim; \
 	fi
 
-# TODO(max) change this off of fork once the pull request goes through.
 mako: dirs
 	if [ -d ~/.vim/bundle/vim-bundle-mako.vim ]; then \
 	  cd ~/.vim/bundle/vim-bundle-mako.vim && git pull; \
 	else \
-	git clone git@github.com:max-elastics/vim-bundle-mako.git ~/.vim/bundle/vim-bundle-mako.vim; \
+	git clone git@github.com:sophacles/vim-bundle-mako.git ~/.vim/bundle/vim-bundle-mako.vim; \
+	fi
+
+toml: dirs
+	if [ -d ~/.vim/bundle/vim-toml.vim ]; then \
+	  cd ~/.vim/bundle/vim-toml.vim && git pull; \
+	else \
+          git clone git@github.com:cespare/vim-toml.git ~/.vim/bundle/vim-toml.vim; \
 	fi
 
 .PHONY: $(ALL)
