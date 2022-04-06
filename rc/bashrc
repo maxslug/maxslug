@@ -81,7 +81,7 @@ xterm|rxvt*)
 xterm-256color|xterm-color)
     export PROMPT_DIRTRIM=3
     if [ "$git_prompt" == yes ]; then
-      PS1='\[\e[01;32m\]\u@\h\[\e[00m\]:$(__git_ps1 " (%.10s)")${GEDI_PROMPT} \[\e[01;34m\]\w\[\e[00m\]\$ '
+      PS1='\[\e[01;32m\]\u@\h\[\e[00m\]:$(__git_ps1 " (%.10s)") \[\e[01;34m\]\w\[\e[00m\]\$ '
     else
       PS1='\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
     fi
@@ -98,7 +98,7 @@ xterm-256color|xterm-color)
 screen)
     export PROMPT_DIRTRIM=3
     if [ "$git_prompt" == yes ]; then
-      PS1='\[\ek\u@\h:$(__git_ps1 " (%.10s)") \w\a\e\\\e[01;32m\]\u@\h\[\e[00m\]:$(__git_ps1 " (%.10s)")${GEDI_PROMPT} \[\e[01;34m\]\w\[\e[00m\]\$ '
+      PS1='\[\ek\u@\h:$(__git_ps1 " (%.10s)") \w\a\e\\\e[01;32m\]\u@\h\[\e[00m\]:$(__git_ps1 " (%.10s)") \[\e[01;34m\]\w\[\e[00m\]\$ '
     else
       # Added the prompt three times :
       #   1. tmux tab title - uses a different escape seq \ek ... \e\\
