@@ -100,12 +100,14 @@ au BufRead,BufNewFile *.log        set filetype=tcl
 au BufRead,BufNewFile *.rpt        set filetype=tcl
 au BufRead,BufNewFile *.do         set filetype=tcl
 au BufRead,BufNewFile *.nix        set filetype=tcl
+au BufRead,BufNewFile *.tcl.j2     set filetype=tcl
 au BufRead,BufNewFile *.lib        set filetype=c
 au BufRead,BufNewFile *.A51,*.a51  set filetype=asm
 au BufRead,BufNewFile *.svt,*.v,*.sv,*.vh,*.svh set filetype=systemverilog
 au BufRead,BufNewFile *.pbtxt      set filetype=yaml
 au BufRead,BufNewFile *.bsd,*.bsdl,*.BSD,*.BSDL set filetype=vhdl
 au BufRead,BufNewFile *.bzl,BUILD set filetype=python
+au BufRead,BufNewFile poetry.lock set filetype=toml
 " Moved to vim-yaml-folds
 "au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 "autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
