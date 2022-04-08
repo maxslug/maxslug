@@ -3,10 +3,34 @@
 #      path = /path/to/maxslug/rc/gitconfig
 
 [alias]
+# git alias: list all aliases
+alias = "!git config -l | grep alias | cut -c 7-"
+
 #   Some from https://stackoverflow.com/questions/1777854/how-can-i-specify-a-branch-tag-when-adding-a-git-submodule/18797720#18797720
 # git s - full status including submodules
 s = "! git status; git submodule foreach --recursive git status"
 
+# git b - current branch
+b = "!git rev-parse --abbrev-ref HEAD"
+
+#
+# JIRA
+#
+# git issue: list JIRA issue in format INFRA-nnn
+issue = "! git b | sed -e 's/^\\([A-Z]\\+-[0-9]\\+\\)\\?.*$/\\1/'"
+
+# git co <message> - Commit with automatic JIRA tag. Note: no -m
+#   https://www.atlassian.com/blog/git/advanced-git-aliases
+co = "!f() { issue=$(git issue); \
+    if [ \"$issue\" == \"\" ]; then \
+      git commit -m \"$1\"; \
+    else \
+      git commit -m \"$issue #comment $1\"; \
+    fi }; f"
+
+#
+# Submodules
+#
 # git sm-init: check out the submodules and sync them to their branches
 sm-init = "! git submodule update --init --recursive --remote; git sm-sync"
 
@@ -37,8 +61,5 @@ sm-diff = "! git diff && git submodule foreach 'git diff' "
 
 # git sm-push will ask to push also submodules
 sm-push = push --recurse-submodules=on-demand
-
-# git alias: list all aliases
-alias = "!git config -l | grep alias | cut -c 7-"
 
 # vim:ft=gitconfig
