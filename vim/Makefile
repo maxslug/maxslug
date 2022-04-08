@@ -1,4 +1,5 @@
-ALL=pathogen vim-yaml-folds git-gutter fugitive airline syntastic nerdtree tabular verilog_systemverilog fzf fast-fold python-folding tcl mermaid mako
+ALL=pathogen vim-yaml-folds git-gutter fugitive airline syntastic nerdtree tabular
+ALL+=verilog_systemverilog fzf fast-fold python-folding tcl mermaid mako toml hjson
 
 all: $(ALL)
 
@@ -146,6 +147,13 @@ toml: dirs
 	  cd ~/.vim/bundle/vim-toml.vim && git pull; \
 	else \
           git clone git@github.com:cespare/vim-toml.git ~/.vim/bundle/vim-toml.vim; \
+	fi
+
+hjson: dirs
+	if [ -d ~/.vim/bundle/vim-hjson ]; then \
+	  cd ~/.vim/bundle/vim-json && git pull; \
+	else \
+	  git clone git@github.com:hjson/vim-hjson.git ~/.vim/bundle/vim-hjson; \
 	fi
 
 .PHONY: $(ALL)
