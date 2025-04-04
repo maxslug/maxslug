@@ -134,28 +134,28 @@ mermaid: dirs
 	if [ -d ~/.vim/bundle/mermaid.vim ]; then \
 	  cd ~/.vim/bundle/mermaid.vim && git pull; \
 	else \
-          git clone git@github.com:mracos/mermaid.vim.git ~/.vim/bundle/mermaid.vim; \
+          git clone https://github.com/mracos/mermaid.vim.git ~/.vim/bundle/mermaid.vim; \
 	fi
 
 mako: dirs
 	if [ -d ~/.vim/bundle/vim-bundle-mako.vim ]; then \
 	  cd ~/.vim/bundle/vim-bundle-mako.vim && git pull; \
 	else \
-	git clone git@github.com:sophacles/vim-bundle-mako.git ~/.vim/bundle/vim-bundle-mako.vim; \
+	git clone https://github.com/sophacles/vim-bundle-mako.git ~/.vim/bundle/vim-bundle-mako.vim; \
 	fi
 
 toml: dirs
 	if [ -d ~/.vim/bundle/vim-toml.vim ]; then \
 	  cd ~/.vim/bundle/vim-toml.vim && git pull; \
 	else \
-          git clone git@github.com:cespare/vim-toml.git ~/.vim/bundle/vim-toml.vim; \
+          git clone https://github.com/cespare/vim-toml.git ~/.vim/bundle/vim-toml.vim; \
 	fi
 
 hjson: dirs
 	if [ -d ~/.vim/bundle/vim-hjson ]; then \
 	  cd ~/.vim/bundle/vim-json && git pull; \
 	else \
-	  git clone git@github.com:hjson/vim-hjson.git ~/.vim/bundle/vim-hjson; \
+	  git clone https://github.com/hjson/vim-hjson.git ~/.vim/bundle/vim-hjson; \
 	fi
 
 .PHONY: $(ALL)

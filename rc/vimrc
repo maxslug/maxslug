@@ -73,7 +73,9 @@ nm <F6> :cnext<CR>
 " General Settings
 "
 set autoindent
-set clipboard=unnamedplus,autoselect
+"set clipboard=unnamedplus,autoselect
+" macOS
+set clipboard=autoselect
 set cmdheight=1
 set completeopt=menuone,menu,longest
 set encoding=utf-8
