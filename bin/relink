@@ -1,7 +1,7 @@
 #!/bin/bash
 
 G=$HOME/cad/maxslug
-RC_FILES="vimrc tmux.conf bashrc bashrc.local bash_profile tclshrc dircolors"
+RC_FILES="vimrc tmux.conf bashrc bashrc.local bash_profile tclshrc dircolors zshrc"
 
 for f in $RC_FILES; do
   if [[ ! -e ~/$f ]] ; then
