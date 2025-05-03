@@ -1,5 +1,6 @@
 ALL=pathogen vim-yaml-folds git-gutter fugitive airline syntastic nerdtree tabular
-ALL+=verilog_systemverilog fzf fast-fold python-folding tcl mermaid mako toml hjson
+ALL+=verilog_systemverilog fzf fast-fold python-folding mermaid mako toml hjson
+# tcl
 
 all: $(ALL)
 
@@ -29,7 +30,7 @@ git-gutter: dirs
 	if [ -d ~/.vim/bundle/vim-gitgutter ]; then \
 	  cd ~/.vim/bundle/vim-gitgutter && git pull; \
 	else \
-	  git clone git://github.com/airblade/vim-gitgutter.git ~/.vim/bundle/vim-gitgutter; \
+	  git clone https://github.com/airblade/vim-gitgutter.git ~/.vim/bundle/vim-gitgutter; \
 	fi
 
 nerdtree: dirs
@@ -42,6 +43,7 @@ nerdtree: dirs
 pathogen: dirs
 	curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
+# vim.org is down right now
 # Check for new ver at https://www.vim.org/scripts/script.php?script_id=1603
 tcl: dirs
 	curl -LSso ~/.vim/syntax/tcl.vim https://www.vim.org/scripts/download_script.php?src_id=24212
@@ -57,7 +59,7 @@ tabular: dirs
 	if [ -d ~/.vim/bundle/tabular ]; then \
 	  cd ~/.vim/bundle/tabular && git pull; \
 	else \
-	  git clone git://github.com/godlygeek/tabular.git ~/.vim/bundle/tabular; \
+	  git clone https://github.com/godlygeek/tabular.git ~/.vim/bundle/tabular; \
 	fi
 
 ctags-deps:
@@ -101,7 +103,7 @@ fast-fold: dirs
 	if [ -d ~/.vim/bundle/fast-fold ]; then \
 	  cd ~/.vim/bundle/fast-fold && git pull; \
 	else \
-	  git clone git://github.com/Konfekt/FastFold ~/.vim/bundle/fast-fold; \
+	  git clone https://github.com/Konfekt/FastFold ~/.vim/bundle/fast-fold; \
 	fi
 
 # python folding
@@ -109,7 +111,7 @@ python-folding: dirs
 	if [ -d ~/.vim/bundle/vim-coiled-snake ]; then \
 	  cd ~/.vim/bundle/vim-coiled-snake && git pull; \
 	else \
-          git clone git://github.com/kalekundert/vim-coiled-snake.git ~/.vim/bundle/vim-coiled-snake; \
+          git clone https://github.com/kalekundert/vim-coiled-snake.git ~/.vim/bundle/vim-coiled-snake; \
 	fi
 
 # Mikrotik Syntax Highlighting
