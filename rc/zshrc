@@ -80,7 +80,11 @@ export LESS="-r -X -S -M -i -j 10 -# 4 -c -PM${LESS_PM}\$ -Pw${LESS_PW}\$"
 export PAGER=less
 
 # keychain ssh-agent support
-[ -x /opt/homebrew/bin/keychain ] && [ -f ~/.ssh/id_ed25519 ] && eval `/opt/homebrew/bin/keychain --eval id_ed25519`
+#  Use local file like normal
+# [ -x /opt/homebrew/bin/keychain ] && [ -f ~/.ssh/id_ed25519 ] && eval `/opt/homebrew/bin/keychain --eval id_ed25519`
+#  Use Apple OS "Keychain"
+#    One-time key-import:   ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+[ -x /opt/homebrew/bin/keychain ] && [ -f ~/.ssh/id_ed25519 ] && eval `/opt/homebrew/bin/keychain --eval`
 
 # MacOS Keychain supportk
 # Add this to your .ssh/config make sure authorized_hosts and config are 0644
@@ -90,8 +94,6 @@ export PAGER=less
 #     IdentityFile ~/.ssh/id_ed25519
 if [[ "$OSTYPE" == "darwin"* ]]; then
   export BASH_SILENCE_DEPRECATION_WARNING=1
-  export APPLE_SSH_ADD_BEHAVIOR=macos
-  ssh-add -A
 fi
 
 export PATH=$HOME/bin:$PATH
